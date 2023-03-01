@@ -20,7 +20,7 @@ const ConnectWallet:FC = () => {
         } else if(!address){
             setWalletAddress('Connect Wallet')
         }
-    }, [])
+    }, [address])
 
     const handleClick = () => {
         if(address){

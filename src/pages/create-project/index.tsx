@@ -15,7 +15,7 @@ const CreateProject:FC = () => {
         if(!address){
             Router.push('/user/connect-wallet')
         }
-    }, [])
+    }, [address]);
 
     return(
         <div>
@@ -23,7 +23,7 @@ const CreateProject:FC = () => {
 
             CREATE PROJECT
 
-            
+
 
         </div>
     ) 
