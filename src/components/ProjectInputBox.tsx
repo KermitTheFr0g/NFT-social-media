@@ -20,6 +20,7 @@ const ProjectInputBox:FC<inputInterface> = (props) =>    {
             <input 
                 className='w-2/3 bg-black rounded-xl p-2 focus:outline-none'
                 type="text"  
+                placeholder={props.inputText}
                 onChange={(e) => {
                     props.changeState(e.target.value);
                 }}

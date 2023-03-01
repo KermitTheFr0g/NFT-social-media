@@ -10,6 +10,8 @@ const CreateProjectModule:FC = () => {
     const [mintPrice, setMintPrice] = useState('');
     const [maxPerWallet, setMaxPerWallet] = useState('');
 
+    const [loading, setLoading] = useState(false);
+
     const inputButtons = [
         {
             id: 1,
