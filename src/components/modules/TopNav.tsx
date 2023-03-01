@@ -43,7 +43,7 @@ const TopNav:FC = () => {
                             text={item.text}
                             link={item.link}
                         />
-                        |
+                        <div className="hover:cursor-default">|</div>
                        </>
                     )
                 })

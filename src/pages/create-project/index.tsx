@@ -1,4 +1,5 @@
 import { FC } from "react";
+import Head from 'next/head';
 import Router from 'next/router';
 
 import { GetStaticProps } from "next";
@@ -7,6 +8,7 @@ import { useState, useEffect } from "react";
 import { useAccount, useConnect, useEnsName, useDisconnect } from "wagmi";
 
 import TopNav from "@/components/modules/TopNav";
+import CreateProjectModule from "@/components/modules/CreateProject";
 
 const CreateProject:FC = () => {
     const { address, isConnected } = useAccount();
@@ -18,14 +20,20 @@ const CreateProject:FC = () => {
     }, [address]);
 
     return(
-        <div>
+        <>
+            <Head>
+                <title>Create Project</title>
+            </Head>
+
             <TopNav />
 
-            CREATE PROJECT
+            <div className="text-center text-5xl p-10 hover:cursor-default">
+                Create Project
+            </div>
 
+            <CreateProjectModule />
 
-
-        </div>
+        </>
     ) 
 }
 
