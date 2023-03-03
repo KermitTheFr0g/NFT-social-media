@@ -8,6 +8,7 @@ export default function handler(
 ) {
     if(req.method == 'POST'){
         // take input from post request
+        console.log(req.body);
 
         // validate input from request
         

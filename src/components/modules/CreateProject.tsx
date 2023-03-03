@@ -9,6 +9,7 @@ const CreateProjectModule:FC = () => {
     const [maxSupply, setMaxSupply] = useState('');
     const [mintPrice, setMintPrice] = useState('');
     const [maxPerWallet, setMaxPerWallet] = useState('');
+    const [Ipfs, setIpfs] = useState('');
 
     const [loading, setLoading] = useState(false);
 
@@ -44,6 +45,12 @@ const CreateProjectModule:FC = () => {
             changeState: setProjectName,
             description: `Set how many NFTs can be purchased with the use of a 
             single wallet`
+        },
+        {
+            id: 6,
+            text: 'IPFS ADDRESS',
+            changeState: setIpfs,
+            description: `Set IPFS address for where images are stored`
         }
     ]
 
