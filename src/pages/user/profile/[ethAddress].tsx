@@ -9,15 +9,23 @@ import { useAccount, useConnect, useEnsName, useDisconnect } from "wagmi";
 
 import TopNav from "@/components/modules/TopNav";
 
+import { GetServerSideProps } from 'next'
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  return {
+    props: {}
+  }
+}
+
 // need to add getserverside rendering
 // check db if the profile actually exists
-
-
 
 const Profile:FC = () => {
     const { address, isConnected } = useAccount();
     const router = useRouter();
     const { ethAddress } = router.query;
+
+    const [isUser, setIsUser] = useState(false);
 
     useEffect(() => {
         if(!address){
@@ -25,6 +33,12 @@ const Profile:FC = () => {
         }
     }, [address])
     
+    useEffect(() => {
+        console.log(address, ethAddress);
+        if(address === ethAddress){
+            setIsUser(true);
+        }
+    }, [])
 
     return (
         <div>
@@ -37,6 +51,15 @@ const Profile:FC = () => {
             <div>
                 {ethAddress}
             </div>
+
+            {
+                isUser ?
+                <div>
+                    YOU OWN THIS PAGE
+                </div>
+                :
+                <></>
+            }
 
         </div>
     )

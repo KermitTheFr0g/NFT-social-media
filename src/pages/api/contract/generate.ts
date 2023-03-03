@@ -32,7 +32,7 @@ export default async function handler(
             contractID: generateContract.contractID
         })
 
-
+        
         // deploy smart contract to network
         // in this case we will deploy to the testnet
         // todo find out how to deploy a contract to the 
