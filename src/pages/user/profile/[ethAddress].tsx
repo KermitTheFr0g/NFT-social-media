@@ -12,6 +12,8 @@ import TopNav from "@/components/modules/TopNav";
 // need to add getserverside rendering
 // check db if the profile actually exists
 
+
+
 const Profile:FC = () => {
     const { address, isConnected } = useAccount();
     const router = useRouter();

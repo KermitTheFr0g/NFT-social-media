@@ -44,5 +44,15 @@ const contractValidation = (contractParams: paramInterface) => {
     
     const paramValidation = contractSchema.validate(contractParams);
 
+    if(paramValidation.error){
+        return {
+            error: paramValidation.error
+        }
+    }
+
+    return {
+        error: false
+    }
 }
+
 module.exports = contractValidation;
