@@ -1,10 +1,24 @@
 import { FC } from "react";
+import Router, { useRouter } from 'next/router';
+import { useState, useEffect } from "react";
+
 import Head from 'next/head';
+
+import { useAccount } from "wagmi";
 
 import TopNav from "@/components/modules/TopNav";
 import WalletButton from '@/components/WalletButton';
 
 const ConnecWallet:FC = () => {
+    const { address, isConnected } = useAccount();
+    const router = useRouter();
+
+    useEffect(() => {
+        if(address){
+            Router.push(`/user/profile/${address}`);
+        }
+    }, [address])
+
     return (
         <>
             <Head>
