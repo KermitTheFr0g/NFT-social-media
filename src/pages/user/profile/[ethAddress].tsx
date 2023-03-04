@@ -25,6 +25,7 @@ const Profile:FC = () => {
     const router = useRouter();
     const { ethAddress } = router.query;
 
+    const [loading, setLoading] = useState(false);
     const [isUser, setIsUser] = useState(false);
 
     useEffect(() => {
@@ -34,11 +35,26 @@ const Profile:FC = () => {
     }, [address])
     
     useEffect(() => {
+        setLoading(true);
+
         console.log(address, ethAddress);
         if(address === ethAddress){
             setIsUser(true);
         }
+        
+        setLoading(false);
     }, [])
+
+    if(loading){
+        return (
+            <div>
+                <TopNav />
+    
+                <div>LOADING</div>
+
+            </div>
+        )
+    }
 
     return (
         <div>
