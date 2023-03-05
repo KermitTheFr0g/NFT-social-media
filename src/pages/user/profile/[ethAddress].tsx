@@ -37,11 +37,13 @@ const Profile:FC = () => {
     useEffect(() => {
         setLoading(true);
 
+        // check if 
+
         console.log(address, ethAddress);
         if(address === ethAddress){
             setIsUser(true);
         }
-        
+
         setLoading(false);
     }, [])
 
