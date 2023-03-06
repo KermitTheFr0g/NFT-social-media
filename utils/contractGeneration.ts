@@ -152,7 +152,7 @@ contract {{contractName}} is ERC721, ERC721URIStorage, Ownable {
 
         // todo save the contract under some sort of id
         const contractID = '001';
-        fs.writeFile(`user_contracts/contract_${ethAddress}.sol`, contents, err => {
+        fs.writeFile(`user_contracts/contract_${ethAddress}_${configParams.contractName}.sol`, contents, err => {
             if (err) {
                 return console.error(`Error! Failed to store template: ${err.message}.`);
             }
