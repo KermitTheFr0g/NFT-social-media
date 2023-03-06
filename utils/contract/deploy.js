@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ path: '../../.env' });
 
 // 1. Import the contract file
 const contractFile = require('./compile');
@@ -13,7 +13,7 @@ const provider = new ethers.providers.JsonRpcProvider(url)
 
 // 3. Create account variables
 const account_from = {
-  privateKey: PROCESS.env,
+  privateKey: process.env.PRIVATE,
 };
 
 // 4. Save the bytecode and ABI
