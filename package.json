@@ -20,6 +20,7 @@
     "eslint": "8.35.0",
     "eslint-config-next": "13.2.1",
     "ethers": "^5.7.2",
+    "fs-extra": "^11.1.0",
     "joi": "^17.8.3",
     "next": "13.2.1",
     "react": "18.2.0",

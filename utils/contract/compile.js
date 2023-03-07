@@ -23,6 +23,7 @@ const input = {
       },
    },
 };
+
 // 4. Compile the contract
 const tempFile = JSON.parse(solc.compile(JSON.stringify(input)));
 console.log(tempFile);
