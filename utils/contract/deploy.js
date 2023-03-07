@@ -31,6 +31,7 @@ const deploy = async () => {
   console.log(`Attempting to deploy from account: ${wallet.address}`);
 
   // 8. Send tx (initial value set to 5) and wait for receipt
+  //todo enter in params for the 
   const contract = await incrementer.deploy(5);
   const txReceipt = await contract.deployTransaction.wait();
 
@@ -38,5 +39,16 @@ const deploy = async () => {
   console.log(`Contract deployed at address: ${txReceipt.contractAddress}`);
 };
 
+const transfer = async (contractAddress) => {
+  const newAddress = '0x516923E55e9eD4Bcf08CFA4A477a11805b0CD72C'
+  console.log(`Attempting to transfer contract to: ${newAddress}`);
+
+  const deployedContract = new ethers.Contract('0x0a8C43A91594f315c85C2E1F84ed617EA550856c', abi, wallet);
+
+  console.log(await deployedContract.increment(10));
+  console.log(await deployedContract.number());
+}
+
 // 9. Call the deploy function
 deploy();
+//transfer();
