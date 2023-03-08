@@ -1,7 +1,7 @@
 require('dotenv').config({ path: '../../.env' });
 
 // 1. Import the contract file
-const contractFile = require('./compile');
+const contractFile = require('./test');
 
 // 2. Add the Ethers provider logic here:
 // 1. Import ethers
@@ -32,7 +32,7 @@ const deploy = async () => {
 
   // 8. Send tx (initial value set to 5) and wait for receipt
   //todo enter in params for the 
-  const contract = await incrementer.deploy(5);
+  const contract = await incrementer.deploy('ipfs://123', 'ipfs://134');
   const txReceipt = await contract.deployTransaction.wait();
 
 
@@ -43,12 +43,21 @@ const transfer = async (contractAddress) => {
   const newAddress = '0x516923E55e9eD4Bcf08CFA4A477a11805b0CD72C'
   console.log(`Attempting to transfer contract to: ${newAddress}`);
 
-  const deployedContract = new ethers.Contract('0x0a8C43A91594f315c85C2E1F84ed617EA550856c', abi, wallet);
+  const deployedContract = new ethers.Contract('0xb8eC1875b89042939464f8a169f8A9028887D386', abi, wallet);
 
-  console.log(await deployedContract.increment(10));
-  console.log(await deployedContract.number());
+  console.log(await deployedContract.transferOwnership(newAddress))
+}
+
+const mint = async () => {
+  console.log(`Attempting to mint from: ${'0xb8eC1875b89042939464f8a169f8A9028887D386'}`);
+
+  const deployedContract = new ethers.Contract('0xb8eC1875b89042939464f8a169f8A9028887D386', abi, wallet);
+
+  console.log(await deployedContract.toggleMint());
+  console.log(await deployedContract.publicMint('0x516923E55e9eD4Bcf08CFA4A477a11805b0CD72C', '1'));
 }
 
 // 9. Call the deploy function
-deploy();
+//deploy();
 //transfer();
+mint()
