@@ -4,6 +4,8 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 const contractValidation = require('../../../../utils/validation/contract');
 const contractGeneration = require('../../../../utils/contractGeneration');
 
+const contractDeployment = require('../../../../utils/contract/deploy');
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -36,7 +38,9 @@ export default async function handler(
         // deploy smart contract to network
         // in this case we will deploy to the testnet
         // todo find out how to deploy a contract to the 
-
+        
+        //todo run the deploy script
+        
         
         
     } else {
