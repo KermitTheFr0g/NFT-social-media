@@ -3,6 +3,7 @@ const contractCompiler = require('./compile');
 const ethers = require('ethers');
 
 //todo look into transfering ownership of contract to new user
+//todo add some validation for errors being thrown
 
 // url for sepolia rpc
 const url = 'https://rpc2.sepolia.org';

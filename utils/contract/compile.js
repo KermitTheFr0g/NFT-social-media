@@ -22,7 +22,7 @@ const compileContract = (contractPath, className) => {
     const tempFile = JSON.parse(solc.compile(JSON.stringify(input)));
     const contractFile = tempFile.contracts[contractPath][className];
     // exports the abi 
-    fs.writeFileSync(`../../user_contracts_abi/${getWalletAddress(contractPath)}_abi.json`, JSON.stringify(contractFile.abi));
+    fs.writeFileSync(`${process.env.PWD}/user_contracts_abi/${getWalletAddress(contractPath)}_abi.json`, JSON.stringify(contractFile.abi));
   
     return contractFile;
 }

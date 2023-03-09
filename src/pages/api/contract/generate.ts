@@ -1,3 +1,5 @@
+import path from 'path';
+
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 
@@ -29,19 +31,27 @@ export default async function handler(
         // generate contract and save in backend
         // save under the name of user address
         const generateContract = await contractGeneration(configParams, ethAddress);
-        return res.status(200).json({ 
-            message: generateContract.message,
-            contractID: generateContract.contractID
-        })
-
         
         // deploy smart contract to network
         // in this case we will deploy to the testnet
         // todo find out how to deploy a contract to the 
         
-        //todo run the deploy script
+        console.log(process.env.PWD + '/user_contracts/copntractpoopy.sol');
+
+        // todo run the deploy script
+        try {
+            var deployedContract = await contractDeployment(`${process.env.PWD}/user_contracts/contract_0x516923E55e9eD4Bcf08CFA4A477a11805b0CD72C.sol`, 'GunKillers', '123', 'ipfs://123');
+        } catch(error){
+            return res.status(500).json({
+                error: error
+            })
+        }
         
         
+        return res.status(200).json({ 
+            message: 'Conctract Deployed',
+            contractAddress: await deployedContract.contractAddress
+        })
         
     } else {
         return res.status(400).json({ errorMessage: 'Must send POST to this endpoint' })
