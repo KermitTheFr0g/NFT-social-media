@@ -43,9 +43,9 @@ const contract = {
 
         const source = `// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
-import "@openzeppelin/contracts@4.7.0/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts@4.7.0/token/ERC721/extensions/ERC721URIStorage.sol";
-import "@openzeppelin/contracts@4.7.0/access/Ownable.sol";
+import "../node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "../node_modules/@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "../node_modules/@openzeppelin/contracts/access/Ownable.sol";
 contract {{contractName}} is ERC721, ERC721URIStorage, Ownable {
     uint256 public totalSupply; 
     bool public mintEnabled;
@@ -152,7 +152,7 @@ contract {{contractName}} is ERC721, ERC721URIStorage, Ownable {
 
         // todo save the contract under some sort of id
         const contractID = '001';
-        fs.writeFile(`user_contracts/contract_${ethAddress}_${configParams.contractName}.sol`, contents, err => {
+        fs.writeFile(`${process.env.PWD}/user_contracts/contract_${ethAddress}.sol`, contents, err => {
             if (err) {
                 return console.error(`Error! Failed to store template: ${err.message}.`);
             }
@@ -162,7 +162,7 @@ contract {{contractName}} is ERC721, ERC721URIStorage, Ownable {
 
         return {
             message: "Success!",
-            contractID: `contract_${ethAddress}`
+            contractName: `contract_${ethAddress}.sol`,
         }
     }
 }

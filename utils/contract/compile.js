@@ -1,9 +1,15 @@
 const fs = require('fs');
 const solc = require('solc');
+const { resolve } = require('path');
 
 // contractPath: "../../contract_0x51--etc.sol"
-const compileContract = (contractPath, className) => {
+const compileContract = (contractID, className) => {
     const sources = {}
+    const contractPath = resolve(`./user_contracts/${contractID}`)
+
+    console.log(contractPath);
+    console.log(resolve('./user_contracts_abi/testing123_abi.json'));
+
     compileImports(contractPath, sources);
 
     var input = {
@@ -18,11 +24,13 @@ const compileContract = (contractPath, className) => {
       },
     };
   
-  
     const tempFile = JSON.parse(solc.compile(JSON.stringify(input)));
     const contractFile = tempFile.contracts[contractPath][className];
-    // exports the abi 
-    fs.writeFileSync(`${process.env.PWD}/user_contracts_abi/${getWalletAddress(contractPath)}_abi.json`, JSON.stringify(contractFile.abi));
+
+    console.log(contractFile);
+
+    // exports the abi for later use 
+    fs.writeFileSync(`${resolve('./user_contracts_abi/testing123_abi.json')}`, JSON.stringify(contractFile.abi));
   
     return contractFile;
 }
