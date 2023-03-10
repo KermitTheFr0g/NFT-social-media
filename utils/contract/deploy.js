@@ -16,7 +16,7 @@ const account_from = {
 }
 
 const deployContract = async (contractPath, className, userAddress, ipfsAddress) => {
-    const contractFile = contractCompiler(contractPath, className);
+    const contractFile = contractCompiler(contractPath, className)
 
     // bytecode and abi from compiled contract
     const bytecode = contractFile.evm.bytecode.object;

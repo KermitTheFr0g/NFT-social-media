@@ -1,8 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-import path from 'path';
-
 const contractValidation = require('../../../../utils/validation/contract');
 const contractGeneration = require('../../../../utils/contractGeneration');
 
@@ -30,15 +28,15 @@ export default async function handler(
 
         // generate contract and save in backend
         // save under the name of user address
-        const generateContract = await contractGeneration(configParams, ethAddress);
-        console.log(generateContract);
+       const generateContract = await contractGeneration(configParams, ethAddress);
+       console.log(generateContract);
 
         // deploy smart contract to network
         // in this case we will deploy to the testnet
         
         // todo run the deploy script
         try {
-            var deployedContract = await contractDeployment('contract_0x516923E55e9eD4Bcf08CFA4A477a11805b0CD72C.sol', 'GunKillers', '123', 'ipfs://123');
+            var deployedContract = await contractDeployment(generateContract.contractID, configParams.contractName, ethAddress, 'ipfs://123');
         } catch(error){
             return res.status(500).json({
                 error: error

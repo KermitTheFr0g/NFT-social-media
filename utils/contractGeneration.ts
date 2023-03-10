@@ -148,21 +148,17 @@ contract {{contractName}} is ERC721, ERC721URIStorage, Ownable {
         const template = Handlebars.compile(source);
         
         // this will be replaced with the config params
-        const contents = template(configParams);
+        const contents = await template(configParams);
 
         // todo save the contract under some sort of id
-        const contractID = '001';
-        fs.writeFile(`${process.env.PWD}/user_contracts/contract_${ethAddress}.sol`, contents, err => {
-            if (err) {
-                return console.error(`Error! Failed to store template: ${err.message}.`);
-            }
-        });
+        fs.writeFileSync(`${process.env.PWD}/user_contracts/contract_${ethAddress}.sol`, contents);
 
         // also needs to return back the id of the saved contract
 
         return {
             message: "Success!",
-            contractName: `contract_${ethAddress}.sol`,
+            contractID: `contract_${ethAddress}.sol`,
+            contractName: configParams.contractName
         }
     }
 }

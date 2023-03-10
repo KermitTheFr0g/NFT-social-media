@@ -7,9 +7,6 @@ const compileContract = (contractID, className) => {
     const sources = {}
     const contractPath = resolve(`./user_contracts/${contractID}`)
 
-    console.log(contractPath);
-    console.log(resolve('./user_contracts_abi/testing123_abi.json'));
-
     compileImports(contractPath, sources);
 
     var input = {
@@ -25,13 +22,14 @@ const compileContract = (contractID, className) => {
     };
   
     const tempFile = JSON.parse(solc.compile(JSON.stringify(input)));
+    console.log(tempFile);
     const contractFile = tempFile.contracts[contractPath][className];
 
-    console.log(contractFile);
-
     // exports the abi for later use 
-    fs.writeFileSync(`${resolve('./user_contracts_abi/testing123_abi.json')}`, JSON.stringify(contractFile.abi));
-  
+    fs.writeFileSync(`${resolve(`./user_contracts_abi/${contractID.split('.')[0]}_abi.json`)}`, JSON.stringify(contractFile.abi));
+    
+    console.log('saved abi file')
+
     return contractFile;
 }
 
