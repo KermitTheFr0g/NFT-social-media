@@ -13,6 +13,30 @@ interface paramInterface {
 
 const contract = { 
     generate: async function(configParams: paramInterface, ethAddress: string){
+        //! go through the entire generation process and ensure that the handlebars are in correct locations
+        //! a lot is still missing from the contract even though it is passed into the config
+
+        // todo
+        // go through the reveal type options and build these into the generation
+
+        // todo
+        // need to go through and add the additional features for the contract
+        // review the params which are being passed in and make sure these change the contract in some way
+        
+        // handlebars is used 
+        
+        // this is where the contract is generated
+
+        // todo 
+        // come up with a way to generate a unique id for the contract
+        // this id can then be passed and returned to the user
+        // using this id the contract can then be accessed.
+
+        // source of the contract
+        // todo this needs to be moved back or the outputted code is two tabs in
+
+        // crreate randomisation for the 
+
         // gets contract name
         configParams.contractName = '';
         configParams.contractName = configParams.projectName.replaceAll(' ', '');
@@ -25,34 +49,48 @@ import "../node_modules/@openzeppelin/contracts/access/Ownable.sol";
 contract {{contractName}} is ERC721, ERC721URIStorage, Ownable {
     uint256 public totalSupply; 
     bool public mintEnabled;
+    {{#unless instantReveal}}
+    bool public revealed;
+    {{/unless}}
     uint256 public maxSupply = {{maxSupply}};
     uint256[] public tokenIDs;
     mapping(address => uint256) public mintedWallets;
+    {{#unless instantReveal}} 
+    string public unrevealedBaseURI;
+    {{/unless}}
     string public baseURI;
     constructor(
-      string memory _initBaseURI
+      string memory _initBaseURI{{#unless instantReveal}},{{/unless}}
+      {{#unless instantReveal}}
+      string memory _initUnrevealedURI
+      {{/unless}}
     ) ERC721("{{projectName}}", "{{projectAbbreviation}}") {
+        {{#unless instantReveal}}
+        unrevealedBaseURI = _initUnrevealedURI;
+        {{/unless}}
         baseURI = _initBaseURI;
     }
-    
     function _baseURI() internal view override returns (string memory) {
         return baseURI;
     }
-
     function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {
         super._burn(tokenId);
     }
-
     function tokenURI(uint256 tokenId)
         public
         view
         override(ERC721, ERC721URIStorage)
         returns (string memory)
     {
+        {{#unless instantReveal}}
+        if(!revealed){
+          return unrevealedBaseURI;
+        }
+        {{/unless}}
         require(tokenIDs[tokenId] != 1, "NFT has not yet been minted");
+    
         return string(abi.encodePacked(_baseURI(), Strings.toString(tokenId), ".json"));
     }
-
     function publicMint(
         address recipient,
         uint256 amount
@@ -80,27 +118,29 @@ contract {{contractName}} is ERC721, ERC721URIStorage, Ownable {
         _safeMint(recipient, totalSupply);
         {{/if}}
     }
-
     function isContentOwned(uint256 tokenId) public view returns (bool) {
         return tokenIDs[tokenId] == 1;
     }
-
     function getCount() public view returns(uint256){
         return totalSupply;
     }
-
     function toggleMint() public onlyOwner {
         mintEnabled = !mintEnabled;
     }
-
     function getMintStatus() public view onlyOwner returns (bool) {
       return mintEnabled;
     }
-
+    {{#unless instantReveal}}
+    function toggleRevealed() public onlyOwner {
+      revealed = !revealed;
+    }
+    {{/unless}}
+    {{#unless instantReveal}}
+    function getRevealedStatus() public view onlyOwner returns (bool) {
+      return revealed;
+    }
+    {{/unless}}
     function withdraw() public payable onlyOwner {
-        (bool hs, ) = payable(0x4f8a5E2d0d7E486dd87e15747FEF1C1D3CebE716).call{value: address(this).balance * 5 / 100}("");
-        require(hs);
-
         (bool os, ) = payable(owner()).call{value: address(this).balance}("");
         require(os);
     }

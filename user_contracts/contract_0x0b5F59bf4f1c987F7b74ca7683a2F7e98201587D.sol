@@ -1,37 +1,18 @@
-import fs from 'fs';
-const Handlebars = require('handlebars');
-
-interface paramInterface {
-    projectName: string;
-    projectAbbreviation: string;
-    maxSupply: number;
-    mintPrice: number;
-    maxPerWallet: number;
-    ipfsAddress: string;
-    contractName: string;
-}
-
-const contract = { 
-    generate: async function(configParams: paramInterface, ethAddress: string){
-        // gets contract name
-        configParams.contractName = '';
-        configParams.contractName = configParams.projectName.replaceAll(' ', '');
-
-        const source = `// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 import "../node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "../node_modules/@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "../node_modules/@openzeppelin/contracts/access/Ownable.sol";
-contract {{contractName}} is ERC721, ERC721URIStorage, Ownable {
+contract GunKillers is ERC721, ERC721URIStorage, Ownable {
     uint256 public totalSupply; 
     bool public mintEnabled;
-    uint256 public maxSupply = {{maxSupply}};
+    uint256 public maxSupply = 1000;
     uint256[] public tokenIDs;
     mapping(address => uint256) public mintedWallets;
     string public baseURI;
     constructor(
       string memory _initBaseURI
-    ) ERC721("{{projectName}}", "{{projectAbbreviation}}") {
+    ) ERC721("GunKillers", "GK") {
         baseURI = _initBaseURI;
     }
     
@@ -58,11 +39,10 @@ contract {{contractName}} is ERC721, ERC721URIStorage, Ownable {
         uint256 amount
     ) public payable {
         require(mintEnabled, "Minting is not yet enabled");
-        require(mintedWallets[msg.sender] + amount <= {{maxPerWallet}}, "You cannot mint more than {{maxPerWallet}}!");
+        require(mintedWallets[msg.sender] + amount <= 5, "You cannot mint more than 5!");
         require(totalSupply + amount <= maxSupply, "Max NFTS have been reached");
-        require(msg.value == {{mintPrice}}, "This NFT costs {{mintPrice}} ETH");
+        require(msg.value == 0, "This NFT costs 0 ETH");
         
-        {{#unless singleWalletMint}}
         for (uint i = 0; i < amount; i++){
             totalSupply ++;
         
@@ -72,13 +52,6 @@ contract {{contractName}} is ERC721, ERC721URIStorage, Ownable {
         
             _safeMint(recipient, totalSupply);
         }
-        {{/unless}}
-        {{#if singleWalletMint}}
-        totalSupply++;
-        mintedWallets[msg.sender]++;
-        tokenIDs.push(totalSupply);
-        _safeMint(recipient, totalSupply);
-        {{/if}}
     }
 
     function isContentOwned(uint256 tokenId) public view returns (bool) {
@@ -104,23 +77,4 @@ contract {{contractName}} is ERC721, ERC721URIStorage, Ownable {
         (bool os, ) = payable(owner()).call{value: address(this).balance}("");
         require(os);
     }
-}`;
-        const template = Handlebars.compile(source);
-        
-        // this will be replaced with the config params
-        const contents = await template(configParams);
-
-        // todo save the contract under some sort of id
-        fs.writeFileSync(`${process.env.PWD}/user_contracts/contract_${ethAddress}.sol`, contents);
-
-        // also needs to return back the id of the saved contract
-
-        return {
-            message: "Success!",
-            contractID: `contract_${ethAddress}.sol`,
-            contractName: configParams.contractName
-        }
-    }
 }
-
-module.exports = contract.generate;

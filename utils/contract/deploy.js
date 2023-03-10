@@ -28,10 +28,14 @@ const deployContract = async (contractPath, className, userAddress, ipfsAddress)
     // logic for deploying contract
     const userContractFactory = new ethers.ContractFactory(abi, bytecode, wallet);
 
-    const contract = await userContractFactory.deploy(ipfsAddress, ipfsAddress);
+    const contract = await userContractFactory.deploy(ipfsAddress);
     const txReceipt = await contract.deployTransaction.wait();
 
     console.log(`Contract deployed at address: ${txReceipt.contractAddress}`);
+
+    // takes the deployed contract and transfers ownership to the user
+    const deployedContract = new ethers.Contract(txReceipt.contractAddress, abi, wallet);
+    await deployedContract.transferOwnership(userAddress);
 
     return {
         contractAddress: txReceipt.contractAddress
