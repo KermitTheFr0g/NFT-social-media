@@ -19,6 +19,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/api/contract", "utils/contract/deploy.js", "oldUtils/compile.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/api/contract", "utils/contract/deploy.js", "oldUtils/compile.js", "src/pages/user/profile/[ethAddress].tsx", "src/pages/user/profile/[ethAddress] copy.jsx", "src/pages/user/profile/[ethAddress].tsx"],
   "exclude": ["node_modules"]
 }

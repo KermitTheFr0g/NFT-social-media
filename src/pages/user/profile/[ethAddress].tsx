@@ -5,11 +5,13 @@ import Router, { useRouter } from 'next/router';
 import { GetStaticProps } from "next";
 import { useState, useEffect } from "react";
 
-import { useAccount, useConnect, useEnsName, useDisconnect } from "wagmi";
+import { useAccount, useConnect, useDisconnect, useContractWrite } from "wagmi";
 
 import TopNav from "@/components/modules/TopNav";
 
 import { GetServerSideProps } from 'next'
+
+import contractABI from '../../../../user_contracts_abi/contract_0x0b5F59bf4f1c987F7b74ca7683a2F7e98201587D_abi.json';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
@@ -27,6 +29,20 @@ const Profile:FC = () => {
 
     const [loading, setLoading] = useState(false);
     const [isUser, setIsUser] = useState(false);
+
+    const { write } = useContractWrite({
+        address: '0x78B610e65C162686Bf850a7982c0b28Bf1691A05',
+        abi: [
+            {
+                "inputs": [],
+                "name": "toggleMint",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+              },
+        ],
+        functionName: 'toggleMint',
+    })
 
     useEffect(() => {
         if(!address){
@@ -53,7 +69,9 @@ const Profile:FC = () => {
                 <TopNav />
     
                 <div>LOADING</div>
-
+                <button onClick={write()}>
+                    TOGGLE MINT
+                </button>
             </div>
         )
     }
