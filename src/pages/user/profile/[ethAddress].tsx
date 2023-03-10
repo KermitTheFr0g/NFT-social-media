@@ -1,17 +1,14 @@
 import { FC } from "react";
-
+import Head from 'next/head';
 import Router, { useRouter } from 'next/router';
 
-import { GetStaticProps } from "next";
 import { useState, useEffect } from "react";
 
-import { useAccount, useConnect, useDisconnect, useContractWrite } from "wagmi";
+import { useAccount, useConnect, useDisconnect, useContractWrite, usePrepareContractWrite } from "wagmi";
 
 import TopNav from "@/components/modules/TopNav";
 
 import { GetServerSideProps } from 'next'
-
-import contractABI from '../../../../user_contracts_abi/contract_0x0b5F59bf4f1c987F7b74ca7683a2F7e98201587D_abi.json';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
@@ -22,6 +19,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 // need to add getserverside rendering
 // check db if the profile actually exists
 
+//* if profile is wallet connected
+// enable user to toggle minting
+// edit their profile for other users to view
+
 const Profile:FC = () => {
     const { address, isConnected } = useAccount();
     const router = useRouter();
@@ -29,8 +30,9 @@ const Profile:FC = () => {
 
     const [loading, setLoading] = useState(false);
     const [isUser, setIsUser] = useState(false);
+    const [username, setUsername] = useState<any | null>(null);
 
-    const { write } = useContractWrite({
+    const { config } = usePrepareContractWrite({
         address: '0x78B610e65C162686Bf850a7982c0b28Bf1691A05',
         abi: [
             {
@@ -44,6 +46,8 @@ const Profile:FC = () => {
         functionName: 'toggleMint',
     })
 
+    const { write } = useContractWrite(config);
+
     useEffect(() => {
         if(!address){
             Router.push('/user/connect-wallet');
@@ -53,12 +57,15 @@ const Profile:FC = () => {
     useEffect(() => {
         setLoading(true);
 
-        // check if 
-
-        console.log(address, ethAddress);
+        //* check if connected address matches
         if(address === ethAddress){
             setIsUser(true);
         }
+
+        // this will be replaced with an actual username if one is found
+        setUsername(ethAddress);
+
+        //todo check if user has changed account to a name
 
         setLoading(false);
     }, [])
@@ -69,15 +76,15 @@ const Profile:FC = () => {
                 <TopNav />
     
                 <div>LOADING</div>
-                <button onClick={write()}>
-                    TOGGLE MINT
-                </button>
             </div>
         )
     }
 
     return (
         <div>
+            <Head>
+                <title>{username}</title>
+            </Head>
             <TopNav />
 
             <div>
@@ -92,6 +99,11 @@ const Profile:FC = () => {
                 isUser ?
                 <div>
                     YOU OWN THIS PAGE
+                    <button onClick={() => {
+                        write?.();
+                    }}>
+                        Toggle Mint
+                    </button>
                 </div>
                 :
                 <></>
