@@ -32,22 +32,6 @@ const Profile:FC = () => {
     const [isUser, setIsUser] = useState(false);
     const [username, setUsername] = useState<any | null>(null);
 
-    const { config } = usePrepareContractWrite({
-        address: '0x78B610e65C162686Bf850a7982c0b28Bf1691A05',
-        abi: [
-            {
-                "inputs": [],
-                "name": "toggleMint",
-                "outputs": [],
-                "stateMutability": "nonpayable",
-                "type": "function"
-              },
-        ],
-        functionName: 'toggleMint',
-    })
-
-    const { write } = useContractWrite(config);
-
     useEffect(() => {
         if(!address){
             Router.push('/user/connect-wallet');
@@ -61,6 +45,10 @@ const Profile:FC = () => {
         if(address === ethAddress){
             setIsUser(true);
         }
+
+        //todo go to db to check the user exists
+        //todo get the user's username if they have one setup
+        //todo check the projects the user has launched
 
         // this will be replaced with an actual username if one is found
         setUsername(ethAddress);
@@ -99,11 +87,6 @@ const Profile:FC = () => {
                 isUser ?
                 <div>
                     YOU OWN THIS PAGE
-                    <button onClick={() => {
-                        write?.();
-                    }}>
-                        Toggle Mint
-                    </button>
                 </div>
                 :
                 <></>
