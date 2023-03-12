@@ -16,8 +16,11 @@ const CreateProjectModule:FC<ProjectInterface> = (props) => {
     const [Ipfs, setIpfs] = useState('');
 
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [contractAddress, setContractAddress] = useState('');
 
     const submitConfig = async () => {
+        setLoading(true);
         const response = fetch(`/api/contract/generate?ethAddress=${props.ethAddress}`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -30,9 +33,14 @@ const CreateProjectModule:FC<ProjectInterface> = (props) => {
                 "ipfsAddress": Ipfs
             })
         })
-        const { data, errors} = await (await response).json();
-        console.log(errors);
-        console.log(data);
+
+        const data = await (await response).json();
+        if(!data.success){
+            setError(data.error);
+        }
+
+        setContractAddress(data.contractAddress);
+        setLoading(false);
     }
 
     const inputButtons = [
@@ -102,6 +110,11 @@ const CreateProjectModule:FC<ProjectInterface> = (props) => {
             <button className="m-auto w-1/3 bg-black p-2 rounded-xl" onClick={() => submitConfig()}>
                 Create Project
             </button>
+
+            {
+                // place in here the logic for displaying message from request
+
+            }
         </div>
     )
 }
