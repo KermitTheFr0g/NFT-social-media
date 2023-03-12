@@ -17,7 +17,7 @@ const CreateProjectModule:FC<ProjectInterface> = (props) => {
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [contractAddress, setContractAddress] = useState('');
+    const [contractAddress, setContractAddress] = useState(null);
 
     const submitConfig = async () => {
         setLoading(true);
@@ -85,36 +85,52 @@ const CreateProjectModule:FC<ProjectInterface> = (props) => {
     ]
 
     return(
-        <div className="m-auto justify-center w-1/2 flex flex-col bg-top-nav rounded-xl p-5">
-            <div className="text-2xl ml-10 mb-5">Project Configuration</div>
+        <div className="flex flex-col">
+            <div className="m-auto justify-center w-1/2 flex flex-col bg-top-nav rounded-xl p-5">
+                <div className="text-2xl ml-10 mb-5">Project Configuration</div>
+                {
+                    inputButtons.map(element => {
+                        return (
+                            <ProjectInputBox
+                                key={element.id}
+                                inputText={element.text}
+                                changeState={element.changeState}
+                                description={element.description}
+                            />
+                        )
+                    })
+                }
+                <p className="p-3">
+                    Enter in your configuration for the NFT collection you would
+                    like to create. Hovering over these various options gives you
+                    details about the different configurations possible.
+                </p>
+                <button className="m-auto w-1/3 bg-black p-2 rounded-xl" onClick={() => submitConfig()}>
+                    Create Project
+                </button>
+            </div>
 
-            {
-                inputButtons.map(element => {
-                    return (
-                        <ProjectInputBox 
-                            key={element.id} 
-                            inputText={element.text}
-                            changeState={element.changeState}
-                            description={element.description} 
-                        />
-                    )
-                })
-            }
-    
-            <p className="p-3">
-                Enter in your configuration for the NFT collection you would
-                like to create. Hovering over these various options gives you
-                details about the different configurations possible.
-            </p>
+            <div className="m-auto justify-center w-1/2 flex flex-col bg-top-nav rounded-xl p-5 mt-10">
+                <div className="text-xl ml-10 mb-5">
+                    Contract Generation Info
+                </div>
 
-            <button className="m-auto w-1/3 bg-black p-2 rounded-xl" onClick={() => submitConfig()}>
-                Create Project
-            </button>
-
-            {
-                // place in here the logic for displaying message from request
-
-            }
+                { 
+                    loading || !contractAddress ?
+                    <div>
+                        <p className="p-3">
+                            Generate the project to see your Contract Info.
+                        </p>
+                    </div>
+                    :
+                    <div>
+                        <div className="w-full flex flex-row my-1">
+                            <div className="w-1/3 p-2">Contract Address</div>
+                            <div className="w-2/3">{contractAddress}</div>
+                        </div>
+                    </div>
+                }
+            </div>
         </div>
     )
 }
