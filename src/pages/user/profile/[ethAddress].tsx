@@ -31,6 +31,7 @@ const Profile:FC = () => {
     const [loading, setLoading] = useState(false);
     const [isUser, setIsUser] = useState(false);
     const [username, setUsername] = useState<any | null>(null);
+    const [edit, setEdit] = useState(false);
 
     useEffect(() => {
         if(!address){

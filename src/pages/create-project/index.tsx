@@ -31,7 +31,7 @@ const CreateProject:FC = () => {
                 Create Project
             </div>
 
-            <CreateProjectModule />
+            <CreateProjectModule ethAddress={address} />
 
         </>
     ) 
