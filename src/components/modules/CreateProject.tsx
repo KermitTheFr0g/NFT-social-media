@@ -3,7 +3,11 @@ import { useState, useEffect } from "react";
 
 import ProjectInputBox from "../ProjectInputBox"; 
 
-const CreateProjectModule:FC = () => {
+interface ProjectInterface {
+    ethAddress: any;
+}
+
+const CreateProjectModule:FC<ProjectInterface> = (props) => {
     const [projectName, setProjectName] = useState('')
     const [projectAbbreviation, setProjectAbbreviation] = useState('');
     const [maxSupply, setMaxSupply] = useState('');
@@ -12,6 +16,24 @@ const CreateProjectModule:FC = () => {
     const [Ipfs, setIpfs] = useState('');
 
     const [loading, setLoading] = useState(false);
+
+    const submitConfig = async () => {
+        const response = fetch(`/api/contract/generate?ethAddress=${props.ethAddress}`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                "projectName": projectName,
+                "projectAbbreviation": projectAbbreviation,
+                "maxSupply": maxSupply,
+                "mintPrice": mintPrice,
+                "maxPerWallet": maxPerWallet,
+                "ipfsAddress": Ipfs
+            })
+        })
+        const { data, errors} = await (await response).json();
+        console.log(errors);
+        console.log(data);
+    }
 
     const inputButtons = [
         {
@@ -23,26 +45,26 @@ const CreateProjectModule:FC = () => {
         {
             id: 2,
             text: 'PROJECT ABBREVIATION',
-            changeState: setProjectName,
+            changeState: setProjectAbbreviation,
             description: `Set the abbreviation of your NFT project`
         },
         {
             id: 3,
             text: 'MAX SUPPLY',
-            changeState: setProjectName,
+            changeState: setMaxSupply,
             description: `Set how many pieces are art can be purchased 
             from your NFT project`
         },
         {
             id: 4,
             text: 'MINT PRICE',
-            changeState: setProjectName,
+            changeState: setMintPrice,
             description: `Set the price to purchase an NFT from your project`
         },
         {
             id: 5,
             text: 'MAX PER WALLET',
-            changeState: setProjectName,
+            changeState: setMaxPerWallet,
             description: `Set how many NFTs can be purchased with the use of a 
             single wallet`
         },
@@ -77,7 +99,7 @@ const CreateProjectModule:FC = () => {
                 details about the different configurations possible.
             </p>
 
-            <button className="m-auto w-1/3 bg-black p-2 rounded-xl">
+            <button className="m-auto w-1/3 bg-black p-2 rounded-xl" onClick={() => submitConfig()}>
                 Create Project
             </button>
         </div>
