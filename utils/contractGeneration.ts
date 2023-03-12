@@ -60,7 +60,7 @@ contract {{contractName}} is ERC721, ERC721URIStorage, Ownable {
         require(mintEnabled, "Minting is not yet enabled");
         require(mintedWallets[msg.sender] + amount <= {{maxPerWallet}}, "You cannot mint more than {{maxPerWallet}}!");
         require(totalSupply + amount <= maxSupply, "Max NFTS have been reached");
-        require(msg.value == {{mintPrice}}, "This NFT costs {{mintPrice}} ETH");
+        require(msg.value == {{mintPrice}} ether, "This NFT costs {{mintPrice}} ETH");
         
         {{#unless singleWalletMint}}
         for (uint i = 0; i < amount; i++){
