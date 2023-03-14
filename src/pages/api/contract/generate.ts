@@ -20,6 +20,7 @@ export default async function handler(
 
         // validate input from request
         const validateContract = contractValidation(configParams);
+        console.log(`Error - ${validateContract.error}`)
         if(validateContract.error){
             return res.status(400).json({
                 error: validateContract.error

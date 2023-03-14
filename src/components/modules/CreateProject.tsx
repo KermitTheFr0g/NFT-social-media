@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 
 import ProjectInputBox from "../ProjectInputBox"; 
 
+// todo within the generation info have option to download abi and contract
+
 interface ProjectInterface {
     ethAddress: any;
 }
@@ -105,28 +107,53 @@ const CreateProjectModule:FC<ProjectInterface> = (props) => {
                     like to create. Hovering over these various options gives you
                     details about the different configurations possible.
                 </p>
-                <button className="m-auto w-1/3 bg-black p-2 rounded-xl" onClick={() => submitConfig()}>
+                <button className="m-auto w-1/3 bg-black p-2 rounded-xl dark:hover:bg-accent-black" onClick={() => submitConfig()}>
                     Create Project
                 </button>
             </div>
 
-            <div className="m-auto justify-center w-1/2 flex flex-col bg-top-nav rounded-xl p-5 mt-10">
+            <div className="m-auto justify-center w-1/2 flex flex-col bg-top-nav rounded-xl p-5 my-10">
                 <div className="text-xl ml-10 mb-5">
                     Contract Generation Info
                 </div>
 
+                {
+                    loading ?
+                    <div className="text-center p-3">
+                        Loading...
+                    </div>
+                    :
+                    <>
+                    </>
+                }
+
                 { 
-                    loading || !contractAddress ?
+                    !contractAddress ?
                     <div>
-                        <p className="p-3">
-                            Generate the project to see your Contract Info.
-                        </p>
+                        {
+                            loading ?
+                            <div></div>
+                            :
+                            <p className="p-3">
+                                Generate the project to see your Contract Info.
+                            </p>
+                        }
                     </div>
                     :
                     <div>
                         <div className="w-full flex flex-row my-1">
                             <div className="w-1/3 p-2">Contract Address</div>
-                            <div className="w-2/3">{contractAddress}</div>
+                            <div className="w-2/3 p-2">{contractAddress}</div>
+                        </div>
+
+                        <div className="w-full flex flex-row my-1">
+                            <div className="w-1/3 p-2">Contract File</div>
+                            <a className="w-2/3 p-2" href={`/api/files/contract?ethAddress=${props.ethAddress}`} download>Download Solidity File</a>
+                        </div>
+
+                        <div className="w-full flex flex-row my-1">
+                            <div className="w-1/3 p-2">ABI File</div>
+                            <a className="w-2/3 p-2" href={`/api/files/abi?ethAddress=${props.ethAddress}`} download>Download ABI File</a>
                         </div>
                     </div>
                 }
