@@ -28,10 +28,22 @@ const Profile:FC = () => {
     const router = useRouter();
     const { ethAddress } = router.query;
 
+    const [projectName, setProjectName] = useState('');
+
     const [loading, setLoading] = useState(false);
     const [isUser, setIsUser] = useState(false);
     const [username, setUsername] = useState<any | null>(null);
     const [edit, setEdit] = useState(false);
+
+    const getProfileData = async () => {
+        const response = fetch(`/api/user/profile?ethAddress=${ethAddress}`, {
+            method: 'GET',
+            headers: {'Content-Type': 'application/json'}
+        })
+
+        const data = await (await response).json();
+        return data;
+    }
 
     useEffect(() => {
         if(!address){
