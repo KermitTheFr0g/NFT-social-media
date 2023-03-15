@@ -1,6 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 
+const db = require('../../../../utils/database');
+
 const contractValidation = require('../../../../utils/validation/contract');
 const contractGeneration = require('../../../../utils/contractGeneration');
 
@@ -29,8 +31,8 @@ export default async function handler(
 
         // generate contract and save in backend
         // save under the name of user address
-       const generateContract = await contractGeneration(configParams, ethAddress);
-       console.log(generateContract);
+        const generateContract = await contractGeneration(configParams, ethAddress);
+        console.log(generateContract);
 
         // deploy smart contract to network
         // in this case we will deploy to the testnet
@@ -44,10 +46,19 @@ export default async function handler(
             })
         }
         
+        // todo potentially change db to mongodb
+        // add new project into the database
+        await db.query('INSERT INTO projects ("projectName", "projectDescription", "contractAddress", "ownerAddress") VALUES ($1, $2, $3, $4)',
+        [
+            configParams.projectName,
+            configParams.projectDescription,
+            await deployedContract.contractAddress,
+            ethAddress
+        ]);
         
         return res.status(200).json({
             success: true,
-            message: 'Conctract Deployed',
+            message: 'Contract Deployed',
             contractAddress: await deployedContract.contractAddress
         })
         
