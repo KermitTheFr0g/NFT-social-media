@@ -1,6 +1,9 @@
 import { FC } from "react";
 import { useState, useEffect } from "react";
 
+import { Tooltip } from '@mui/material';
+import { Zoom } from '@mui/material';
+
 import ProjectInputBox from "../ProjectInputBox"; 
 
 // todo within the generation info have option to download abi and contract
@@ -17,6 +20,11 @@ const CreateProjectModule:FC<ProjectInterface> = (props) => {
     const [maxPerWallet, setMaxPerWallet] = useState('');
     const [Ipfs, setIpfs] = useState('');
 
+    // optional project options
+    const [projectDescription, setProjectDescription] = useState('');
+    // todo add this to the request to api
+    const [profilePicture, setProfilePicture] = useState<File | null>(null);
+
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [contractAddress, setContractAddress] = useState(null);
@@ -32,7 +40,8 @@ const CreateProjectModule:FC<ProjectInterface> = (props) => {
                 "maxSupply": maxSupply,
                 "mintPrice": mintPrice,
                 "maxPerWallet": maxPerWallet,
-                "ipfsAddress": Ipfs
+                "ipfsAddress": Ipfs,
+                "projectDescription": projectDescription,
             })
         })
 
@@ -107,7 +116,52 @@ const CreateProjectModule:FC<ProjectInterface> = (props) => {
                     like to create. Hovering over these various options gives you
                     details about the different configurations possible.
                 </p>
-                <button className="m-auto w-1/3 bg-black p-2 rounded-xl dark:hover:bg-accent-black" onClick={() => submitConfig()}>
+            </div>
+
+            <div className="m-auto justify-center w-1/2 flex flex-col bg-top-nav rounded-xl p-5 mt-10">
+                <div className="text-2xl ml-10 mb-5">
+                    Optional Project Info
+                </div>
+
+                <div className="w-full flex flex-row my-1">
+                    <Tooltip title={'Description of the project'} placement={'left'}>
+                        <div className="w-1/3 p-2 my-auto hover:cursor-default">
+                            Project Description
+                        </div>
+                    </Tooltip>
+                    <textarea 
+                        className={'w-2/3 bg-black rounded-xl p-2 focus:outline-none'}
+                        onChange={(e) => {setProjectDescription(e.target.value)}}
+                    >
+                    </textarea>
+                </div>
+
+                <div className="w-full flex flex-row my-1">
+                    <Tooltip title={'Project profile picture'} placement={'left'}>
+                        <div className="w-1/3 p-2 hover:cursor-default">
+                            Project Profile Picture
+                        </div>
+                    </Tooltip>
+                    <input 
+                        className="w-2/3 bg-black rounded-xl p-2 focus:outline-none" 
+                        type="file"
+                        onChange={(e) => {
+                            if(e.target.files == null){
+                                return
+                            }
+                            setProfilePicture(e.target.files[0]) 
+                        }}
+                    />
+                </div>
+
+                <p className="p-3">
+                    These optional inputs will be used within the profile page
+                    once the contract has been deployed.
+                </p>
+            </div>
+            
+            <div className="flex flex-row mt-10 w-full">
+                <button className="m-auto w-1/5 bg-black p-2 rounded-xl dark:hover:bg-accent-black" onClick={() => submitConfig()}>
                     Create Project
                 </button>
             </div>

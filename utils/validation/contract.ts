@@ -40,6 +40,9 @@ const contractValidation = (contractParams: paramInterface) => {
         ipfsAddress: Joi.string()
             .required()
             .max(999),
+
+        projectDescription: Joi.string()
+            .max(999)
     })
     
     const paramValidation = contractSchema.validate(contractParams);
