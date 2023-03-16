@@ -28,7 +28,9 @@ const Profile:FC = () => {
     const router = useRouter();
     const { ethAddress } = router.query;
 
+    const [projectPresent, setProjectPresent] = useState(false);
     const [projectName, setProjectName] = useState('');
+
 
     const [loading, setLoading] = useState(false);
     const [isUser, setIsUser] = useState(false);
@@ -54,6 +56,25 @@ const Profile:FC = () => {
     useEffect(() => {
         setLoading(true);
 
+        const getData = async () => {
+            const response = fetch(`/api/user/profile?ethAddress=${ethAddress}`, {
+                method: 'GET',
+                headers: {'Content-Type': 'application/json'}
+            });
+
+            const data = await (await response).json();
+            if(!data.project){
+                return 
+            }
+
+            setProjectPresent(true)
+            setProjectName(data.project.projectName)
+
+            
+
+            console.log(data.project);
+        }
+
         //* check if connected address matches
         if(address === ethAddress){
             setIsUser(true);
@@ -62,6 +83,8 @@ const Profile:FC = () => {
         //todo go to db to check the user exists
         //todo get the user's username if they have one setup
         //todo check the projects the user has launched
+        getData();
+
 
         // this will be replaced with an actual username if one is found
         setUsername(ethAddress);
@@ -81,6 +104,17 @@ const Profile:FC = () => {
         )
     }
 
+    //todo if the user is not the owner and there is no project render a different page
+    if(!isUser && !projectPresent){
+        return (
+            <div>
+                <TopNav />
+    
+                <div>NO PROJECT PRESENT</div>
+            </div>
+        )
+    }
+
     return (
         <div>
             <Head>
@@ -90,6 +124,10 @@ const Profile:FC = () => {
 
             <div>
                 THIS HERE IS PROFILE SECTION
+            </div>
+
+            <div>
+                THEY OWN THIS PROJECT - {projectName}
             </div>
 
             <div>

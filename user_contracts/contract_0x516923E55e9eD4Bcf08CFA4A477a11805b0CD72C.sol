@@ -3,7 +3,7 @@ pragma solidity ^0.8.4;
 import "../node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "../node_modules/@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "../node_modules/@openzeppelin/contracts/access/Ownable.sol";
-contract testingproject is ERC721, ERC721URIStorage, Ownable {
+contract mickeymouse is ERC721, ERC721URIStorage, Ownable {
     uint256 public totalSupply; 
     bool public mintEnabled;
     uint256 public maxSupply = 1000;
@@ -12,7 +12,7 @@ contract testingproject is ERC721, ERC721URIStorage, Ownable {
     string public baseURI;
     constructor(
       string memory _initBaseURI
-    ) ERC721("testing project", "tp") {
+    ) ERC721("mickey mouse", "mm ") {
         baseURI = _initBaseURI;
     }
     
@@ -41,7 +41,7 @@ contract testingproject is ERC721, ERC721URIStorage, Ownable {
         require(mintEnabled, "Minting is not yet enabled");
         require(mintedWallets[msg.sender] + amount <= 10, "You cannot mint more than 10!");
         require(totalSupply + amount <= maxSupply, "Max NFTS have been reached");
-        require(msg.value == 0.01 ether, "This NFT costs 0.01 ETH");
+        require(msg.value == 1 ether, "This NFT costs 1 ETH");
         
         for (uint i = 0; i < amount; i++){
             totalSupply ++;

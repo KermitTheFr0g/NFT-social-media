@@ -17,11 +17,11 @@ export default async function handler(
 
         if(rows.length == 0){
             return res.status(200).json({
-                message: 'no data'
+                project: false
             })
         }
 
-        return res.status(200).json({ rows: rows })
+        return res.status(200).json({ project: rows[0] })
 
     } else {
         return res.status(400).json({ errorMessage: 'Must send GET to this endpoint' })
