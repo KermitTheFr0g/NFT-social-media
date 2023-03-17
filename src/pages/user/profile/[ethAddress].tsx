@@ -9,6 +9,8 @@ import { useAccount, useContractWrite, usePrepareContractWrite, useContractRead 
 
 import TopNav from "@/components/modules/TopNav";
 import ProjectPage from "@/components/modules/ProjectPage";
+import MintingButton from "@/components/MintingButton";
+import ToggleMintButton from "@/components/ToggleMintButton";
 
 import { GetServerSideProps } from 'next'
 // change this to a general abi for all contracts
@@ -28,44 +30,20 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 // edit their profile for other users to view
 
 const Profile:FC = () => {
-    const { address, connector } = useAccount();
+    const { address } = useAccount();
     const router = useRouter();
     const { ethAddress } = router.query;
 
     const [projectPresent, setProjectPresent] = useState(false);
     const [projectName, setProjectName] = useState('');
     const [projectDescription, setProjectDescription] = useState('');
+    const [ethPrice, setethPrice] = useState('');
     const [contractAddress, setContractAddress] = useState('');
-
-    const [minting, setMinting] = useState<boolean | any>(false);
 
     const [loading, setLoading] = useState(false);
     const [isUser, setIsUser] = useState(false);
     const [username, setUsername] = useState<any | null>(null);
     const [edit, setEdit] = useState(false);
-
-
-    const getMintStatus = useContractRead({
-        address: '0xEF9A79a24FFE57cEb94Ed583805b7C81bdf4f48b',
-        abi: contractABI,
-        functionName: 'getMintStatus',
-        onSuccess(){
-            setMinting(getMintStatus.data)
-        }
-    })
-
-    // todo dynamically change both the address and the value of eth which is sent
-    const { config } = usePrepareContractWrite({
-        address: '0xEF9A79a24FFE57cEb94Ed583805b7C81bdf4f48b',
-        abi: contractABI,
-        functionName: 'publicMint',
-        args: [address, 1], 
-        overrides: {
-            value: ethers.utils.parseEther('0.01')
-        }
-    })
-    const { write } = useContractWrite(config);
-
 
     useEffect(() => {
         if(!address){
@@ -91,6 +69,7 @@ const Profile:FC = () => {
             setProjectName(contractData.project.projectName);
             setProjectDescription(contractData.project.projectDescription)
             setContractAddress(contractData.project.contractAddress);
+            setethPrice(contractData.project.ethPrice)
 
             console.log(contractData.project);
         }
@@ -162,12 +141,21 @@ const Profile:FC = () => {
                 projectDescription={projectDescription} 
             />
 
-            <button disabled={!minting} onClick={() => { write?.()}}>mint here</button>
+            <div>
+                <MintingButton 
+                    address={address}
+                    contractAddress={contractAddress}
+                    ethPrice={ethPrice}
+                />
+            </div>
 
             {
                 isUser ?
                 <div>
-                    YOU OWN THIS PAGE
+                    <ToggleMintButton 
+                        address={address}
+                        contractAddress={contractAddress}
+                    />
                 </div>
                 :
                 <></>
