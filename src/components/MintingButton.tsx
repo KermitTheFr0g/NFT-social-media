@@ -18,15 +18,18 @@ interface MintingInterface {
 // todo move the minting function from profile page to here
 
 const MintingButton:FC<MintingInterface> = (props) => {
-    const [minting, setMinting] = useState<boolean | any>(false);
+    const [minting, setMinting] = useState<boolean>(false);
     
     const getMintStatus = useContractRead({
         address: `0x${props.contractAddress.split('0x')[1]}`,
         abi: contractABI,
         functionName: 'mintEnabled',
         onSuccess(){
-            setMinting(getMintStatus.data)
-        }
+            if(typeof getMintStatus.data == 'boolean'){
+                setMinting(getMintStatus.data)
+            }
+        },
+        watch: true
     })
 
     // todo dynamically change both the address and the value of eth which is sent
