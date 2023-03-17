@@ -21,7 +21,7 @@ export default async function handler(
             })
         }
 
-        return res.status(200).json({ project: rows[0] })
+        return res.status(200).json({ project: rows[rows.length - 1] })
 
     } else {
         return res.status(400).json({ errorMessage: 'Must send GET to this endpoint' })

@@ -93,7 +93,7 @@ contract {{contractName}} is ERC721, ERC721URIStorage, Ownable {
         mintEnabled = !mintEnabled;
     }
 
-    function getMintStatus() public view onlyOwner returns (bool) {
+    function getMintStatus() public view returns (bool) {
       return mintEnabled;
     }
 
