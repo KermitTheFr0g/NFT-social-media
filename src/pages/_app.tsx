@@ -1,8 +1,9 @@
-import { WagmiConfig, createClient, configureChains, mainnet } from 'wagmi'
+import { sepolia } from '@wagmi/chains'
+import { WagmiConfig, createClient, configureChains, } from 'wagmi'
 import { publicProvider } from 'wagmi/providers/public'
  
 const { chains, provider, webSocketProvider } = configureChains(
-  [mainnet],
+  [sepolia],
   [publicProvider()],
 )
  
