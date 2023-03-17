@@ -7,7 +7,6 @@ import { InjectedConnector } from 'wagmi/connectors/injected';
 const ConnectWallet:FC = () => {
     const { address, isConnected } = useAccount();
     const { disconnect } = useDisconnect();
-    const { data: ensName } = useEnsName({ address });
     const { connect } = useConnect({
         connector: new InjectedConnector(),
     })
