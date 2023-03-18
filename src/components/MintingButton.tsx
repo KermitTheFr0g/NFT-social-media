@@ -45,9 +45,15 @@ const MintingButton:FC<MintingInterface> = (props) => {
     const { write } = useContractWrite(config);
 
     return (
-        <div>
+        <div className="flex flex-col">
             MINTING BUTTON
-            <button disabled={!minting} onClick={() => { write?.()}}>mint here</button>
+            <button
+                className="w-1/5" 
+                disabled={!minting} 
+                onClick={() => { write?.()}}
+            >
+                mint here
+            </button>
         </div>
     )
 }
