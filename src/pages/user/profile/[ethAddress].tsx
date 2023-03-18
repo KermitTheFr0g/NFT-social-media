@@ -11,6 +11,7 @@ import TopNav from "@/components/modules/TopNav";
 import ProjectPage from "@/components/modules/ProjectPage";
 import MintingButton from "@/components/MintingButton";
 import ToggleMintButton from "@/components/ToggleMintButton";
+import Posts from "@/components/modules/ProjectPosts";
 
 import { GetServerSideProps } from 'next'
 // change this to a general abi for all contracts
@@ -136,19 +137,6 @@ const Profile:FC = () => {
             </Head>
             <TopNav />
 
-            <ProjectPage 
-                projectName={projectName}
-                projectDescription={projectDescription} 
-            />
-
-            <div>
-                <MintingButton 
-                    address={address}
-                    contractAddress={contractAddress}
-                    ethPrice={ethPrice}
-                />
-            </div>
-
             {
                 isUser ?
                 <div>
@@ -160,6 +148,21 @@ const Profile:FC = () => {
                 :
                 <></>
             }
+
+            <ProjectPage 
+                projectName={projectName}
+                projectDescription={projectDescription}
+                contractAddress={contractAddress}
+                userAddress={address}
+            />
+
+            <div className="flex flex-col my-10 w-full justify-center">
+                <MintingButton
+                    address={address}
+                    contractAddress={contractAddress}
+                    ethPrice={ethPrice}
+                />
+            </div>
 
         </div>
     )
