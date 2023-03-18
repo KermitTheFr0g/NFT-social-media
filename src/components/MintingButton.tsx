@@ -45,14 +45,17 @@ const MintingButton:FC<MintingInterface> = (props) => {
     const { write } = useContractWrite(config);
 
     return (
-        <div className="flex flex-col">
-            MINTING BUTTON
+        <div className="flex flex-col w-1/5 m-auto bg-top-nav p-9 rounded-2xl">
+            <div className={'text-2xl text-center m-3'}>Mint NFT here</div>
+            <p>
+                You can mint this NFT project using the button below.
+            </p>
             <button
-                className="w-1/5" 
+                className="w-full p-2 m-2 dark:hover:bg-accent-black rounded-2xl" 
                 disabled={!minting} 
                 onClick={() => { write?.()}}
             >
-                mint here
+                Mint 1X
             </button>
         </div>
     )
