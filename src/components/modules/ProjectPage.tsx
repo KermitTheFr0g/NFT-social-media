@@ -21,6 +21,7 @@ const ProjectPage:FC<ProjectInterface> = (props) => {
                     height={100}
                     alt={'nft placeholder'}
                 />
+                <div className='text-sm'>(Placeholder image)</div>
                 <div className='text-4xl'>{props.projectName}</div>
                 <div className='text-xl w-3/5 '>{props.projectDescription}</div>
                 <div className='text-sm italic'>Contract Address - {props.contractAddress}</div>
