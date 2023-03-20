@@ -10,8 +10,14 @@ const Discover:FC = () => {
                 <title>Discover</title>
             </Head>
 
-            
+            <TopNav />
+
+            <div className="text-center text-4xl mt-10"> 
+                Project Discovery Page
+            </div>
 
         </>
     )
 }
+
+export default Discover

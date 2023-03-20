@@ -14,6 +14,10 @@ export default function Home() {
 
       <TopNav />
 
+      <div className='text-center text-5xl mt-10'>
+        NFT Generation 
+      </div>
+
     </>
   )
 }
