@@ -2,6 +2,7 @@ import { FC } from "react";
 import Head from 'next/head';
 
 import TopNav from "@/components/modules/TopNav";
+import DiscoverProjects from "@/components/modules/DiscoverProjects";
 
 const Discover:FC = () => {
     return (
@@ -15,6 +16,8 @@ const Discover:FC = () => {
             <div className="text-center text-4xl mt-10"> 
                 Project Discovery Page
             </div>
+
+
 
         </>
     )

@@ -1,11 +1,16 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 
-const DiscoverProjects = () => {
+const DiscoverProjects:FC = () => {
     
-    
+    useEffect(() => {
+        
+    }, [])
+
     return (
         <div>
             
+
+
         </div>
     )
 }
