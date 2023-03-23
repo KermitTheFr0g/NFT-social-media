@@ -31,7 +31,7 @@ const DiscoverProjects:FC = () => {
     }, [])
 
     return (
-        <div>
+        <div className="flex flex-wrap m-auto w-11/12 mt-20 justify-center">
             {
                 projects.map(project => {
                     return (
