@@ -1,4 +1,5 @@
 import { FC } from "react";
+import Link from 'next/link';
 
 interface DiscoverInterface {
     ProjectName: string;
@@ -9,11 +10,11 @@ interface DiscoverInterface {
 const DiscoverProjectItem:FC<DiscoverInterface> = (props) => {
 
     return (
-        <div>
+        <Link href={`/user/profile/${props.UserAddress}`}>
             <div>{props.ProjectName}</div>
             <div>{props.ProjectDescription}</div>
             <div>{props.UserAddress}</div>
-        </div>
+        </Link>
     )
 }
 
