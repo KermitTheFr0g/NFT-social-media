@@ -10,7 +10,7 @@ export default async function handler(
 
         // todo look into db and see 
 
-        const {rows} = await db.query('SELECT * FROM projects LIMIT 10');
+        const { rows } = await db.query('SELECT * FROM projects LIMIT 10');
 
         return res.json({
             Projects: rows

@@ -17,7 +17,7 @@ const Discover:FC = () => {
                 Project Discovery Page
             </div>
 
-
+            <DiscoverProjects />
 
         </>
     )
