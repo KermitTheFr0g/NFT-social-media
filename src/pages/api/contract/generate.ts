@@ -13,31 +13,27 @@ export default async function handler(
   res: NextApiResponse
 ) {
     if(req.method == 'POST'){
-        // take input from post request
+        // * set variable from query 
         const { ethAddress } = req.query;
+        // * set object variable from body
         const configParams = req.body;
 
-        console.log(ethAddress);
-        console.log(configParams);
-
-        // validate input from request
+        // * validate input from request
         const validateContract = contractValidation(configParams);
-        console.log(`Error - ${validateContract.error}`)
         if(validateContract.error){
+            console.error(`Error - ${validateContract.error}`)
             return res.status(400).json({
                 error: validateContract.error
             })
         }
 
-        // generate contract and save in backend
-        // save under the name of user address
+        // * generate contract and save in backend
+        // * save under the name of user address
         const generateContract = await contractGeneration(configParams, ethAddress);
         console.log(generateContract);
 
-        // deploy smart contract to network
-        // in this case we will deploy to the testnet
         
-        // todo run the deploy script
+        // * try to deploy contaract to the blockchain
         try {
             var deployedContract = await contractDeployment(generateContract.contractID, configParams.contractName, ethAddress, 'ipfs://123');
         } catch(error){
