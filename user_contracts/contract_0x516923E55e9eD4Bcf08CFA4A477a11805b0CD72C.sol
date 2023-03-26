@@ -3,16 +3,18 @@ pragma solidity ^0.8.4;
 import "../node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "../node_modules/@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "../node_modules/@openzeppelin/contracts/access/Ownable.sol";
-contract GunKillers is ERC721, ERC721URIStorage, Ownable {
+
+contract TestingProject is ERC721, ERC721URIStorage, Ownable {
     uint256 public totalSupply; 
     bool public mintEnabled;
     uint256 public maxSupply = 1000;
     uint256[] public tokenIDs;
     mapping(address => uint256) public mintedWallets;
     string public baseURI;
+    
     constructor(
       string memory _initBaseURI
-    ) ERC721("Gun Killers", "GK") {
+    ) ERC721("Testing Project", "TP") {
         baseURI = _initBaseURI;
     }
     

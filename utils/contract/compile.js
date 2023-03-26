@@ -2,13 +2,14 @@ const fs = require('fs');
 const solc = require('solc');
 const { resolve } = require('path');
 
-// contractPath: "../../contract_0x51--etc.sol"
+// * function to compile contract
 const compileContract = (contractID, className) => {
     const sources = {}
     const contractPath = resolve(`./user_contracts/${contractID}`)
 
     compileImports(contractPath, sources);
 
+    // * setting the input for compiling
     var input = {
       language: "Solidity",
       sources: sources,
@@ -20,19 +21,20 @@ const compileContract = (contractID, className) => {
         },
       },
     };
-  
+    
+
+    // * creating the temporary file compiled with solc
     const tempFile = JSON.parse(solc.compile(JSON.stringify(input)));
-    console.log(tempFile);
     const contractFile = tempFile.contracts[contractPath][className];
 
-    // exports the abi for later use 
+    // * exports the abi
     fs.writeFileSync(`${resolve(`./user_contracts_abi/${contractID.split('.')[0]}_abi.json`)}`, JSON.stringify(contractFile.abi));
     
-    console.log('saved abi file')
-
+    // * returns the contract file to be used for deployment
     return contractFile;
 }
 
+// * loops through all imports and compiles them ready for the main file compilation
 const compileImports = (root, sources) => {
     sources[root] = { content: fs.readFileSync(root, 'utf-8')};
     const imports = getLibraryImports(root);
@@ -41,6 +43,8 @@ const compileImports = (root, sources) => {
     }
 }
 
+
+// * gets the library imports from file which need to be compiled
 const getLibraryImports = (path) => {
     const file = fs.readFileSync(path, 'utf-8');
     const files = new Array();
@@ -61,8 +65,10 @@ const getLibraryImports = (path) => {
     return files;
 }
 
+
+// * creates the full path for 
 const completeFullPath = (parent, path) => {
-    let curDir = parent.substr(0, parent.lastIndexOf("/")); //i.e. ./node/.../ERC721
+    let curDir = parent.substr(0, parent.lastIndexOf("/")); 
     if (path.startsWith("./")) {
       return curDir + "/" + path.substr(2);
     }
@@ -75,8 +81,5 @@ const completeFullPath = (parent, path) => {
     return curDir + "/" + path;
 }
 
-const getWalletAddress = (contractPath) => {
-    return contractPath.split('/')[3].split('.')[0]
-}
 
 module.exports = compileContract;
