@@ -9,7 +9,7 @@ export default async function handler(
     if(req.method == 'GET'){
         const { ethAddress } = req.query;
 
-        const { rows } = await db.query('SELECT * FROM projects WHERE "ownerAddress" = $1 LIMIT 1;', [ethAddress]);
+        const { rows } = await db.query('SELECT * FROM projects WHERE "ownerAddress" = $1;', [ethAddress]);
 
         if(rows.length == 0){
             return res.status(200).json({
