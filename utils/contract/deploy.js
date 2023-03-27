@@ -18,14 +18,14 @@ const account_from = {
 const deployContract = async (contractPath, className, userAddress, ipfsAddress) => {
     const contractFile = contractCompiler(contractPath, className)
 
-    // bytecode and abi from compiled contract
+    // * bytecode and abi from compiled contract
     const bytecode = contractFile.evm.bytecode.object;
     const abi = contractFile.abi;
 
-    // access wallet to deploy contract
+    // * access wallet to deploy contract
     let wallet = new ethers.Wallet(account_from.privateKey, provider);
 
-    // logic for deploying contract
+    // * logic for deploying contract
     const userContractFactory = new ethers.ContractFactory(abi, bytecode, wallet);
 
     const contract = await userContractFactory.deploy(ipfsAddress);
@@ -33,7 +33,7 @@ const deployContract = async (contractPath, className, userAddress, ipfsAddress)
 
     console.log(`Contract deployed at address: ${txReceipt.contractAddress}`);
 
-    // takes the deployed contract and transfers ownership to the user
+    // * takes the deployed contract and transfers ownership to the user
     const deployedContract = new ethers.Contract(txReceipt.contractAddress, abi, wallet);
     await deployedContract.transferOwnership(userAddress);
 

@@ -3,9 +3,6 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 
 import db from '../../../../utils/database';
 
-import fs from 'fs';
-import path from 'path';
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse

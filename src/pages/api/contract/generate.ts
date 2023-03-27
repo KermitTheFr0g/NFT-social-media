@@ -42,9 +42,10 @@ export default async function handler(
             })
         }
         
-        // todo potentially change db to mongodb
-        // add new project into the database
-        await db.query('INSERT INTO projects ("projectName", "projectDescription", "contractAddress", "ownerAddress", "ethPrice") VALUES ($1, $2, $3, $4, $5)',
+        // * insert into project table
+        await db.query(`INSERT INTO projects 
+            ("projectName", "projectDescription", "contractAddress", "ownerAddress", "ethPrice") 
+            VALUES ($1, $2, $3, $4, $5)`,
         [
             configParams.projectName,
             configParams.projectDescription,
@@ -53,6 +54,7 @@ export default async function handler(
             parseFloat(configParams.mintPrice)
         ]);
         
+        // * return success back to the user
         return res.status(200).json({
             success: true,
             message: 'Contract Deployed',
