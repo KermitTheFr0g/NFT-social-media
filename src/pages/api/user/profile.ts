@@ -9,6 +9,7 @@ export default async function handler(
     if(req.method == 'GET'){
         const { ethAddress } = req.query;
 
+        // * gets rows of data with search for the owner address in projects
         const { rows } = await db.query('SELECT * FROM projects WHERE "ownerAddress" = $1;', [ethAddress]);
 
         if(rows.length == 0){
