@@ -11,9 +11,15 @@ export default async function handler(
     if(req.method == 'GET'){
         const { ethAddress } = req.query;        
 
-        // todo check to make sure the files exists
-
         const filePath = path.resolve('.', `user_contracts/contract_${ethAddress}.sol`);
+
+        // * check to make sure the file exists
+        if(!fs.existsSync(filePath)){
+            return res.status(500).json({
+                error: 'File does not exist'
+            })
+        }
+
         const fileBuffer = fs.readFileSync(filePath);
 
         res.setHeader('Content-Type', 'text');
