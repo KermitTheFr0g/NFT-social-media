@@ -13,7 +13,8 @@ interface paramInterface {
 
 const contract = { 
     generate: async function(configParams: paramInterface, ethAddress: string){
-        // gets contract name
+        
+        // * creates the contract name
         configParams.contractName = '';
         configParams.contractName = configParams.projectName.replaceAll(' ', '');
 
@@ -113,7 +114,7 @@ contract {{contractName}} is ERC721, ERC721URIStorage, Ownable {
         // todo save the contract under some sort of id
         fs.writeFileSync(`${process.env.PWD}/user_contracts/contract_${ethAddress}.sol`, contents);
 
-        // also needs to return back the id of the saved contract
+        // * returns back the id of the saved contract
 
         return {
             message: "Success!",
