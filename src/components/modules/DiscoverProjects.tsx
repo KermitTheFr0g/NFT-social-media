@@ -5,8 +5,8 @@ import DiscoverProjectItem from "../DiscoverProjectItem";
 const DiscoverProjects:FC = () => {
     const [loading, setLoading] = useState(false);
     const [projects, setProjects] = useState<[{
-        projectName: string;
-        projectDescription: string;
+        name: string;
+        description: string;
         ownerAddress: string;
     }] | []>([]);
     
@@ -36,8 +36,8 @@ const DiscoverProjects:FC = () => {
                 projects.map(project => {
                     return (
                         <DiscoverProjectItem 
-                            ProjectName={project.projectName}
-                            ProjectDescription={project.projectDescription}
+                            ProjectName={project.name}
+                            ProjectDescription={project.description}
                             UserAddress={project.ownerAddress}
                         />
                     )

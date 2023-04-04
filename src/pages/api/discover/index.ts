@@ -1,6 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 import db from '../../../../utils/database';
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
 
 export default async function handler(
   req: NextApiRequest,
@@ -10,10 +12,10 @@ export default async function handler(
 
         // todo look into db and see 
 
-        const { rows } = await db.query('SELECT * FROM projects LIMIT 10');
+        const projects = await prisma.project.findMany();
 
         return res.json({
-            Projects: rows
+            Projects: projects
         })
 
     } else {

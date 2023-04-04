@@ -1,4 +1,4 @@
 {
     "solidity.defaultCompiler": "localNodeModule",
-    "dotenv.enableAutocloaking": true
+    "dotenv.enableAutocloaking": false
 }

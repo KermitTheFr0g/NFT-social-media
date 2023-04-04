@@ -2,6 +2,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 const db = require('../../../../utils/database');
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient();
 
 const contractValidation = require('../../../../utils/validation/contract');
 const contractGeneration = require('../../../../utils/contractGeneration');
@@ -17,6 +19,17 @@ export default async function handler(
         const { ethAddress } = req.query;
         // * set object variable from body
         const configParams = req.body;
+
+        // * validate ethAddress
+        if(!ethAddress){
+            return res.status(400).json({
+                error: 'No ethAddress provided'
+            })
+        } else if(typeof ethAddress != 'string'){
+            return res.status(400).json({
+                error: 'ethAddress must be a string'
+            })
+        }
 
         // * validate input from request
         const validateContract = contractValidation(configParams);
@@ -41,18 +54,16 @@ export default async function handler(
                 error: error
             })
         }
-        
-        // * insert into project table
-        await db.query(`INSERT INTO projects 
-            ("projectName", "projectDescription", "contractAddress", "ownerAddress", "ethPrice") 
-            VALUES ($1, $2, $3, $4, $5)`,
-        [
-            configParams.projectName,
-            configParams.projectDescription,
-            await deployedContract.contractAddress,
-            ethAddress,
-            parseFloat(configParams.mintPrice)
-        ]);
+
+        const project = await prisma.project.create({
+            data: {
+                name: configParams.projectName,
+                description: configParams.projectDescription,
+                contractAddress: await deployedContract.contractAddress,
+                ownerAddress: ethAddress,
+                ethPrice: parseFloat(configParams.mintPrice)
+            }
+        })
         
         // * return success back to the user
         return res.status(200).json({
