@@ -1,10 +1,19 @@
 import { FC } from "react";
 import Head from 'next/head';
+import { GetServerSideProps } from "next";
 
 import TopNav from "@/components/modules/TopNav";
 import DiscoverProjects from "@/components/modules/DiscoverProjects";
 
-const Discover:FC = () => {
+interface DiscoverProjectsInterface {
+    projects: [{
+        name: string;
+        description: string;
+        ownerAddress: string;
+    }]
+}
+
+const Discover:FC<DiscoverProjectsInterface> = (props) => {
     return (
         <>
             <Head>
@@ -17,10 +26,30 @@ const Discover:FC = () => {
                 Project Discovery Page
             </div>
 
-            <DiscoverProjects />
+            <DiscoverProjects projects={props.projects} />
 
         </>
     )
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+
+    const response = await fetch(`http://localhost:3001/api/discover`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+    });
+
+    const discoveryData = await response.json();
+
+    console.log(discoveryData);
+
+    const projects = discoveryData.Projects;
+
+    return {
+        props: {
+            projects,
+        }
+    }
+};
 
 export default Discover
