@@ -2,38 +2,28 @@ import { FC, useEffect, useState } from "react";
 
 import DiscoverProjectItem from "../DiscoverProjectItem";
 
-const DiscoverProjects:FC = () => {
-    const [loading, setLoading] = useState(false);
-    const [projects, setProjects] = useState<[{
+interface DiscoverProjectsInterface {
+    projects: [{
         name: string;
         description: string;
         ownerAddress: string;
-    }] | []>([]);
-    
-    useEffect(() => {
-        setLoading(true)
+    }]
+}
 
-        const getData = async () => {
-            const response = fetch(`/api/discover`, {
-                method: 'GET',
-                headers: { 'Content-Type': 'application/json' }
-            });
+const DiscoverProjects:FC<DiscoverProjectsInterface> = (props) => {
 
-            const discoveryData = await (await response).json();
-        
-            console.log(discoveryData.Projects);
-            setProjects(discoveryData.Projects);
-        }
-
-        getData();
-
-        setLoading(false);
-    }, [])
+    if(!props.projects){
+        return (
+            <div>
+                <h1>loading...</h1>
+            </div>
+        )
+    }
 
     return (
         <div className="flex flex-wrap m-auto w-11/12 mt-20 justify-center">
             {
-                projects.map(project => {
+                props.projects.map(project => {
                     return (
                         <DiscoverProjectItem 
                             ProjectName={project.name}
