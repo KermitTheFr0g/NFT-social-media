@@ -2,7 +2,6 @@ import { FC } from "react";
 import { useState, useEffect } from "react";
 
 import { Tooltip } from '@mui/material';
-import { Snackbar } from '@mui/material';
 
 import ProjectInputBox from "../ProjectInputBox"; 
 
