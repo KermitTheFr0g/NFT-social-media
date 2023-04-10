@@ -21,7 +21,6 @@ const CreateProjectModule:FC<ProjectInterface> = (props) => {
 
     // optional project options
     const [projectDescription, setProjectDescription] = useState('');
-    // todo add this to the request to api
     const [profilePicture, setProfilePicture] = useState<File | null>(null);
 
     const [loading, setLoading] = useState(false);
