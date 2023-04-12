@@ -1,6 +1,7 @@
 import Head from 'next/head'
 
 import TopNav from '@/components/modules/TopNav'
+import HowItWorks from '@/components/modules/HowItWorks'
 
 export default function Home() {
   return (
@@ -18,7 +19,9 @@ export default function Home() {
         NFT Generation 
       </div>
 
-      
+      <div>
+        <HowItWorks />
+      </div>
 
     </>
   )
