@@ -26,7 +26,7 @@ const HowItWorks: FC = () => {
 
     return (
         <div>
-            <div className="w-1/2 m-32">
+            <div className="w-1/2 m-32H">
                 <div className="text-5xl">How it Works</div>
                 <p className="w-11/12 mt-4">
                     Lorem Ipsum is simply dummy text of the printing and typesetting
