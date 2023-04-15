@@ -23,12 +23,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 }
 
-// need to add getserverside rendering
-// check db if the profile actually exists
-
-//* if profile is wallet connected
-// enable user to toggle minting
-// edit their profile for other users to view
 
 const Profile:FC = () => {
     const { address } = useAccount();
