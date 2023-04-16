@@ -14,9 +14,6 @@ interface MintingInterface {
     ethPrice: string;
 }
 
-// actually write the minting button
-// todo move the minting function from profile page to here
-
 const MintingButton:FC<MintingInterface> = (props) => {
     const [minting, setMinting] = useState<boolean>(false);
     
@@ -32,7 +29,6 @@ const MintingButton:FC<MintingInterface> = (props) => {
         watch: true
     })
 
-    // todo dynamically change both the address and the value of eth which is sent
     const { config } = usePrepareContractWrite({
         address: `0x${props.contractAddress.split('0x')[1]}`,
         abi: contractABI,

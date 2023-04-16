@@ -11,7 +11,6 @@ import TopNav from "@/components/modules/TopNav";
 import ProjectPage from "@/components/modules/ProjectPage";
 import MintingButton from "@/components/MintingButton";
 import ToggleMintButton from "@/components/ToggleMintButton";
-import Posts from "@/components/modules/ProjectPosts";
 
 import { GetServerSideProps } from 'next'
 // change this to a general abi for all contracts
@@ -38,7 +37,6 @@ const Profile:FC = () => {
     const [loading, setLoading] = useState(false);
     const [isUser, setIsUser] = useState(false);
     const [username, setUsername] = useState<any | null>(null);
-    const [edit, setEdit] = useState(false);
 
     useEffect(() => {
         if(!address){
@@ -74,15 +72,9 @@ const Profile:FC = () => {
             setIsUser(true);
         }
 
-        //todo go to db to check the user exists
-        //todo get the user's username if they have one setup
-        //todo check the projects the user has launched
         getData();
 
-        // this will be replaced with an actual username if one is found
         setUsername(ethAddress);
-
-        //todo check if user has changed account to a name
 
         setLoading(false);
     }, [])
@@ -97,7 +89,7 @@ const Profile:FC = () => {
         )
     }
 
-    //todo if the user is not the owner and there is no project render a different page
+    // * renders page if the user is not the owner and there is no project
     if(!isUser && !projectPresent){
         return (
             <div>
@@ -107,8 +99,8 @@ const Profile:FC = () => {
             </div>
         )
     }
-
-    //todo render different page if the owner owns the page but there is no project
+    
+    // * renders page if the user is the owner and there is no project
     if(isUser && !projectPresent){
         return (
             <div>
