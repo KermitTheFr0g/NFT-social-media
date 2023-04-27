@@ -34,14 +34,12 @@ const Discover:FC<DiscoverProjectsInterface> = (props) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 
-    const response = await fetch(`http://localhost:3001/api/discover`, {
+    const response = await fetch(`http://localhost:3000/api/discover`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
     });
 
     const discoveryData = await response.json();
-
-    console.log(discoveryData);
 
     const projects = discoveryData.Projects;
 
