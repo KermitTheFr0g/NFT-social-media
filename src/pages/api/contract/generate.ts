@@ -30,7 +30,6 @@ export default async function handler(
             })
         }
 
-
         // * validate input from request
         const validateContract = contractValidation(configParams);
         if(validateContract.error){
