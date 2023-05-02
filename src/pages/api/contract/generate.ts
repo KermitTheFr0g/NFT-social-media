@@ -48,6 +48,8 @@ export default async function handler(
         
         // * try to deploy contaract to the blockchain
         try {
+            // look into changing the params handed in
+            // ipfs is set to default of 123
             var deployedContract = await contractDeployment(generateContract.contractID, configParams.contractName, ethAddress, 'ipfs://123');
         } catch(error){
             return res.status(500).json({
