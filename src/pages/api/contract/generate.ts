@@ -10,6 +10,8 @@ const contractGeneration = require('../../../../utils/contractGeneration');
 
 const contractDeployment = require('../../../../utils/contract/deploy');
 
+const cryptoWallet = require('../../../../utils/validation/cryptoWallet');
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -19,17 +21,15 @@ export default async function handler(
         const { ethAddress } = req.query;
         // * set object variable from body
         const configParams = req.body;
-
-        // * validate ethAddress
-        if(!ethAddress){
-            return res.status(400).json({
-                error: 'No ethAddress provided'
-            })
-        } else if(typeof ethAddress != 'string'){
-            return res.status(400).json({
-                error: 'ethAddress must be a string'
+        
+        // * check to make sure ethAddress is valid
+        const validateWallet = cryptoWallet(ethAddress);
+        if(validateWallet.error || !ethAddress || typeof ethAddress != 'string'){
+            return res.status(400).json({       
+                error: validateWallet.error
             })
         }
+
 
         // * validate input from request
         const validateContract = contractValidation(configParams);
