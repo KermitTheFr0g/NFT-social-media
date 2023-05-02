@@ -45,6 +45,7 @@ const CreateProjectModule:FC<ProjectInterface> = (props) => {
 
         const data = await (await response).json();
         if(!data.success){
+            //console.log(data.error.details.message);
             setError(data.error);
         }
 
