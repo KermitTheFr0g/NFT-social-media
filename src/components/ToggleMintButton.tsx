@@ -34,7 +34,7 @@ const ToggleMintButton:FC<ToggleMintingInterface> = (props) => {
     const { write } = useContractWrite(config);
 
     return (
-        <div>
+        <div className="p-10">
             <div>Toggle Minting</div>
             <div>Current State - { minting ? <>True</> : <>False</> }</div>            
             <button onClick={() => { write?.()}} >Click to Toggle Minting</button>

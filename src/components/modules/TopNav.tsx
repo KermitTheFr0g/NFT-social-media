@@ -41,7 +41,7 @@ const TopNav:FC = () => {
     return(
         <div className='flex items-center flex-row justify-end md:p-6 dark:bg-top-nav'>
             <Link href={'/'} className='mr-auto text-5xl font-title'>
-                <div>NFT GENERATION</div>
+                <div>NFT SOCIAL MEDIA</div>
             </Link>
             
             {
